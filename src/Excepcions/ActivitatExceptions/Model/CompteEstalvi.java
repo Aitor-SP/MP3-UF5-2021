@@ -4,8 +4,8 @@ import Excepcions.ActivitatExceptions.Exceptions.BankAccountException;
 
 import java.util.List;
 
-import static Excepcions.ActivitatExceptions.Exceptions.ExceptionMessage.ACCOUNT_OVERDRAFT;
-import static Excepcions.ActivitatExceptions.Exceptions.ExceptionMessage.ACCOUNT_ZERO_USER;
+import static Excepcions.ActivitatExceptions.Exceptions.ExceptionMessage.*;
+import static Excepcions.ActivitatExceptions.Exceptions.ExceptionMessage.TRANSFER_ERROR;
 
 public class CompteEstalvi {
     private String numCompte;
@@ -15,6 +15,18 @@ public class CompteEstalvi {
     public CompteEstalvi(String numCompte) {
         this.numCompte = numCompte;
         saldo = 0;
+    }
+
+    public void setNumCompte(String numCompte) {
+        this.numCompte = numCompte;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+
+    public void setLlista_usuaris(List<Client> llista_usuaris) {
+        this.llista_usuaris = llista_usuaris;
     }
 
     /**

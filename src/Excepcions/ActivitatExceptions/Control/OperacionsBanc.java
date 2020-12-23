@@ -2,6 +2,7 @@ package Excepcions.ActivitatExceptions.Control;
 
 import Excepcions.ActivitatExceptions.Exceptions.BankAccountException;
 import Excepcions.ActivitatExceptions.Exceptions.ClientAccountException;
+import Excepcions.ActivitatExceptions.Model.CompteEstalvi;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -10,7 +11,7 @@ import static Excepcions.ActivitatExceptions.Exceptions.ExceptionMessage.*;
 
 public class OperacionsBanc {
 
-    static List<compteEstalvi> compteEstalviList = new ArrayList<>();
+    List<CompteEstalvi> compteEstalviList = new ArrayList<>();
 
     public static boolean verifyDNI(String dni) throws ClientAccountException {
 
@@ -29,39 +30,40 @@ public class OperacionsBanc {
                 correcto = true;
             } else {
                 correcto = false;
-                throw new ClientAccountException(WRONG_DNI+ dni);
+                throw new ClientAccountException(WRONG_DNI + dni);
             }
         }
         return correcto;
     }
 
-        public static boolean verifyAccount(String NumCompte) throws BankAccountException {
+    public boolean verifyAccount(CompteEstalvi numCompte) throws BankAccountException {
 
-        if(!compteEstalviList.contains(NumCompte)){
-            throw new BankAccountException(ACCOUNT_NOT_FOUND);
-        }else{
-            return false;
+        boolean correcto = false;
+        for (CompteEstalvi ce : compteEstalviList) {
+            if (ce.getNumCompte().equals(numCompte)) {
+                correcto = true;
+            } else {
+                correcto =  false;
+                throw new BankAccountException(ACCOUNT_NOT_FOUND);
+            }
         }
+        return correcto;
     }
 
-    public void transferencia(String NumCompte1, String NumCompte2, double saldo) throws BankAccountException {
-
-        if(!verifyAccount(NumCompte1) || !verifyAccount(NumCompte2)){
+    public void transferencia (CompteEstalvi cc1, CompteEstalvi cc2, double saldo) throws BankAccountException {
+        if (!verifyAccount(cc1) || !verifyAccount(cc2)){
             throw new BankAccountException(ACCOUNT_NOT_FOUND);
-        }
-        else{
-            try{
-                NumCompte1.treure(saldo);
-            }catch (Exception e){
+        } else {
+            try {
+                cc1.treure(saldo);
+            } catch (Exception e) {
+                throw new BankAccountException(ACCOUNT_OVERDRAFT);
+            }
+            try {
+                cc2.ingressar(saldo);
+            } catch (Exception e) {
                 throw new BankAccountException(TRANSFER_ERROR);
             }
-
-            try{
-                NumCompte2.ingressar(saldo);
-            }catch (Exception e){
-                throw new BankAccountException(TRANSFER_ERROR);
-            }
-
         }
     }
 }
