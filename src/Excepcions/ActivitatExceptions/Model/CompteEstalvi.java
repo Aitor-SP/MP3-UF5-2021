@@ -1,7 +1,10 @@
 package Excepcions.ActivitatExceptions.Model;
 
 import Excepcions.ActivitatExceptions.Exceptions.BankAccountException;
+import Excepcions.ActivitatExceptions.Exceptions.ClientAccountException;
 
+import javax.security.auth.login.AccountException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static Excepcions.ActivitatExceptions.Exceptions.ExceptionMessage.*;
@@ -13,6 +16,7 @@ public class CompteEstalvi {
     private List<Client> llista_usuaris;
 
     public CompteEstalvi(String numCompte) {
+        llista_usuaris = new ArrayList<>();
         this.numCompte = numCompte;
         saldo = 0;
     }
@@ -85,7 +89,20 @@ public class CompteEstalvi {
         return saldo;
     }
 
-    public List<Client> getLlista_usuaris() {
-        return llista_usuaris;
+    public List<Client> getLlista_usuaris() throws ClientAccountException {
+        if(llista_usuaris.size() <= 1){
+            throw new ClientAccountException(ACCOUNT_ZERO_USER);
+        }else {
+            return llista_usuaris;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "CompteEstalvi{" +
+                "numCompte='" + numCompte + '\'' +
+                ", saldo=" + saldo +
+                ", llista_usuaris=" + llista_usuaris +
+                '}';
     }
 }

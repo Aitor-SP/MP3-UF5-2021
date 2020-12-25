@@ -2,15 +2,18 @@ package Excepcions.ActivitatExceptions.Model;
 
 import Excepcions.ActivitatExceptions.Control.OperacionsBanc;
 import Excepcions.ActivitatExceptions.Exceptions.ClientAccountException;
+import java.util.List;
 
 public class Client {
     private String Nom;
     private String Cognoms;
     private String DNI;
 
+    List<Client> clientList;
+
     public Client(String nom, String cognoms, String DNI) throws ClientAccountException {
-        Nom = nom;
-        Cognoms = cognoms;
+        this.Nom = nom;
+        this.Cognoms = cognoms;
         if(OperacionsBanc.verifyDNI(DNI)) this.DNI = DNI;
     }
 
@@ -38,6 +41,12 @@ public class Client {
         this.DNI = DNI;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Client{" +
+                "Nom='" + Nom + '\'' +
+                ", Cognoms='" + Cognoms + '\'' +
+                ", DNI='" + DNI + '\'' +
+                '}';
+    }
 }
